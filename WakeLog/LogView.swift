@@ -83,9 +83,18 @@ struct LogView: View {
     }
 
     private func logWakeUp() {
+        // Store reason names at time of logging for historical preservation
+        var names: [String: String] = [:]
+        for reasonId in selectedReasonIds {
+            if let reason = dataManager.allReasons.first(where: { $0.id == reasonId }) {
+                names[reasonId] = reason.name
+            }
+        }
+
         let entry = WakeLogEntry(
             reasonIds: Array(selectedReasonIds),
-            otherText: selectedReasonIds.contains(WakeReason.otherReasonId) ? otherText : nil
+            otherText: selectedReasonIds.contains(WakeReason.otherReasonId) ? otherText : nil,
+            reasonNames: names
         )
         dataManager.addEntry(entry)
 

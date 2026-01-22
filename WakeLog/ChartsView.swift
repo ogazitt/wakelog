@@ -46,10 +46,17 @@ struct ChartsView: View {
 
     var reasonCounts: [ReasonCount] {
         var counts: [String: Int] = [:]
+        var storedNames: [String: String] = [:]
 
         for entry in filteredEntries {
             for reasonId in entry.reasonIds {
                 counts[reasonId, default: 0] += 1
+            }
+            // Collect stored names from entries for deleted reasons
+            if let names = entry.reasonNames {
+                for (id, name) in names {
+                    storedNames[id] = name
+                }
             }
         }
 
@@ -61,8 +68,10 @@ struct ChartsView: View {
                 name = "Other"
             } else if let reason = allReasons.first(where: { $0.id == reasonId }) {
                 name = reason.name
+            } else if let storedName = storedNames[reasonId] {
+                name = storedName
             } else {
-                name = reasonId
+                name = "(deleted)"
             }
 
             let color = ReasonColors.color(for: reasonId, in: allReasons)

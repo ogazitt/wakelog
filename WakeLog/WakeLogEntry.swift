@@ -6,12 +6,14 @@ struct WakeLogEntry: Identifiable, Codable {
     let timestamp: Date
     let reasonIds: [String]
     let otherText: String?
+    let reasonNames: [String: String]?  // Maps reason ID to name at time of logging
 
-    init(id: UUID = UUID(), timestamp: Date = Date(), reasonIds: [String], otherText: String? = nil) {
+    init(id: UUID = UUID(), timestamp: Date = Date(), reasonIds: [String], otherText: String? = nil, reasonNames: [String: String]? = nil) {
         self.id = id
         self.timestamp = timestamp
         self.reasonIds = reasonIds
         self.otherText = otherText
+        self.reasonNames = reasonNames
     }
 
     var formattedTime: String {
@@ -32,8 +34,12 @@ struct WakeLogEntry: Identifiable, Codable {
                 }
             } else if let reason = reasons.first(where: { $0.id == reasonId }) {
                 descriptions.append(reason.name)
+            } else if let storedName = reasonNames?[reasonId] {
+                // Use stored name for deleted reasons
+                descriptions.append(storedName)
             } else {
-                descriptions.append(reasonId)
+                // Fallback for old entries without stored names
+                descriptions.append("(deleted)")
             }
         }
         return descriptions.joined(separator: ", ")
