@@ -17,6 +17,12 @@ struct ContentView: View {
                     Text("History")
                 }
 
+            ChartsView()
+                .tabItem {
+                    Image(systemName: "chart.bar")
+                    Text("Charts")
+                }
+
             OptionsView()
                 .tabItem {
                     Image(systemName: "gearshape")

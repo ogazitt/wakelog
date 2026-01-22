@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct WakeLogEntry: Identifiable, Codable {
     let id: UUID
@@ -69,5 +70,38 @@ struct WakeReason: Identifiable, Codable, Equatable {
 
     var isOther: Bool {
         id == WakeReason.otherReasonId
+    }
+}
+
+// Color palette that works well in both light and dark mode
+struct ReasonColors {
+    // Vibrant colors that are visible in both light and dark modes
+    static let palette: [Color] = [
+        Color(red: 0.35, green: 0.55, blue: 0.95),  // Blue
+        Color(red: 0.95, green: 0.45, blue: 0.45),  // Coral Red
+        Color(red: 0.30, green: 0.75, blue: 0.55),  // Teal Green
+        Color(red: 0.95, green: 0.65, blue: 0.25),  // Orange
+        Color(red: 0.70, green: 0.45, blue: 0.85),  // Purple
+        Color(red: 0.85, green: 0.55, blue: 0.70),  // Pink
+        Color(red: 0.50, green: 0.70, blue: 0.35),  // Lime Green
+    ]
+
+    static func color(for index: Int) -> Color {
+        palette[index % palette.count]
+    }
+
+    static func color(for reasonId: String, in reasons: [WakeReason]) -> Color {
+        // "Other" always gets the last color in the palette
+        if reasonId == WakeReason.otherReasonId {
+            return palette.last ?? .gray
+        }
+
+        // Find the index of this reason (excluding "Other")
+        let customReasons = reasons.filter { !$0.isOther }
+        if let index = customReasons.firstIndex(where: { $0.id == reasonId }) {
+            return color(for: index)
+        }
+
+        return .gray
     }
 }

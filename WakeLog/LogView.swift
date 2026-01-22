@@ -19,6 +19,7 @@ struct LogView: View {
                     ForEach(dataManager.allReasons) { reason in
                         ReasonCheckbox(
                             reason: reason,
+                            color: ReasonColors.color(for: reason.id, in: dataManager.allReasons),
                             isSelected: selectedReasonIds.contains(reason.id),
                             onTap: {
                                 if reason.isOther {
@@ -96,24 +97,33 @@ struct LogView: View {
 
 struct ReasonCheckbox: View {
     let reason: WakeReason
+    let color: Color
     let isSelected: Bool
     let onTap: () -> Void
 
     var body: some View {
         Button(action: onTap) {
-            HStack {
-                Image(systemName: isSelected ? "checkmark.square.fill" : "square")
-                    .font(.title)
-                    .foregroundColor(isSelected ? .blue : .gray)
+            HStack(spacing: 0) {
+                // Color indicator bar
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(color)
+                    .frame(width: 6)
+                    .padding(.vertical, 8)
 
-                Text(reason.name)
-                    .font(.title2)
-                    .foregroundColor(.primary)
+                HStack {
+                    Image(systemName: isSelected ? "checkmark.square.fill" : "square")
+                        .font(.title)
+                        .foregroundColor(isSelected ? color : .gray)
 
-                Spacer()
+                    Text(reason.name)
+                        .font(.title2)
+                        .foregroundColor(.primary)
+
+                    Spacer()
+                }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 16)
             }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 20)
             .background(Color(.systemGray6))
             .cornerRadius(12)
         }
