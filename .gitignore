@@ -1,0 +1,19 @@
+# Build
+build/
+DerivedData/
+
+# Xcode
+*.xcuserstate
+*.xcworkspace
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
