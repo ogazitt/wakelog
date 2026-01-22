@@ -2,42 +2,42 @@ import SwiftUI
 
 struct LogView: View {
     @EnvironmentObject var dataManager: DataManager
-    @State private var selectedReasons: Set<WakeReason> = []
+    @State private var selectedReasonIds: Set<String> = []
     @State private var otherText: String = ""
     @State private var showOtherModal: Bool = false
     @State private var showConfirmation: Bool = false
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 20) {
             Text("What woke you up?")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .padding(.top, 40)
+                .padding(.top, 30)
 
-            VStack(spacing: 20) {
-                ForEach(WakeReason.allCases) { reason in
-                    ReasonCheckbox(
-                        reason: reason,
-                        isSelected: selectedReasons.contains(reason),
-                        onTap: {
-                            if reason == .other {
-                                showOtherModal = true
+            ScrollView {
+                VStack(spacing: 16) {
+                    ForEach(dataManager.allReasons) { reason in
+                        ReasonCheckbox(
+                            reason: reason,
+                            isSelected: selectedReasonIds.contains(reason.id),
+                            onTap: {
+                                if reason.isOther {
+                                    showOtherModal = true
+                                }
+                                toggleReason(reason)
                             }
-                            toggleReason(reason)
-                        }
-                    )
+                        )
+                    }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
 
-            if !otherText.isEmpty && selectedReasons.contains(.other) {
+            if !otherText.isEmpty && selectedReasonIds.contains(WakeReason.otherReasonId) {
                 Text("Other: \(otherText)")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .padding(.horizontal)
             }
-
-            Spacer()
 
             Button(action: logWakeUp) {
                 Text("Log Wake-Up")
@@ -45,13 +45,13 @@ struct LogView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 25)
-                    .background(selectedReasons.isEmpty ? Color.gray : Color.blue)
+                    .padding(.vertical, 20)
+                    .background(selectedReasonIds.isEmpty ? Color.gray : Color.blue)
                     .cornerRadius(20)
             }
-            .disabled(selectedReasons.isEmpty)
+            .disabled(selectedReasonIds.isEmpty)
             .padding(.horizontal, 30)
-            .padding(.bottom, 50)
+            .padding(.bottom, 30)
         }
         .sheet(isPresented: $showOtherModal) {
             OtherReasonModal(otherText: $otherText, isPresented: $showOtherModal)
@@ -71,24 +71,24 @@ struct LogView: View {
     }
 
     private func toggleReason(_ reason: WakeReason) {
-        if selectedReasons.contains(reason) {
-            selectedReasons.remove(reason)
-            if reason == .other {
+        if selectedReasonIds.contains(reason.id) {
+            selectedReasonIds.remove(reason.id)
+            if reason.isOther {
                 otherText = ""
             }
         } else {
-            selectedReasons.insert(reason)
+            selectedReasonIds.insert(reason.id)
         }
     }
 
     private func logWakeUp() {
         let entry = WakeLogEntry(
-            reasons: Array(selectedReasons),
-            otherText: selectedReasons.contains(.other) ? otherText : nil
+            reasonIds: Array(selectedReasonIds),
+            otherText: selectedReasonIds.contains(WakeReason.otherReasonId) ? otherText : nil
         )
         dataManager.addEntry(entry)
 
-        selectedReasons.removeAll()
+        selectedReasonIds.removeAll()
         otherText = ""
         showConfirmation = true
     }
@@ -106,13 +106,13 @@ struct ReasonCheckbox: View {
                     .font(.title)
                     .foregroundColor(isSelected ? .blue : .gray)
 
-                Text(reason.displayName)
+                Text(reason.name)
                     .font(.title2)
                     .foregroundColor(.primary)
 
                 Spacer()
             }
-            .padding(.vertical, 15)
+            .padding(.vertical, 14)
             .padding(.horizontal, 20)
             .background(Color(.systemGray6))
             .cornerRadius(12)

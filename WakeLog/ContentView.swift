@@ -16,6 +16,12 @@ struct ContentView: View {
                     Image(systemName: "list.bullet")
                     Text("History")
                 }
+
+            OptionsView()
+                .tabItem {
+                    Image(systemName: "gearshape")
+                    Text("Options")
+                }
         }
         .environmentObject(dataManager)
     }

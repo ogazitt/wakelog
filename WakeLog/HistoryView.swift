@@ -22,7 +22,7 @@ struct HistoryView: View {
                 } else {
                     List {
                         ForEach(dataManager.entries) { entry in
-                            EntryRow(entry: entry)
+                            EntryRow(entry: entry, reasons: dataManager.allReasons)
                         }
                         .onDelete(perform: dataManager.deleteEntry)
                     }
@@ -75,12 +75,13 @@ struct ShareItem: Identifiable {
 
 struct EntryRow: View {
     let entry: WakeLogEntry
+    let reasons: [WakeReason]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(entry.formattedTime)
                 .font(.headline)
-            Text(entry.reasonsDescription)
+            Text(entry.reasonsDescription(using: reasons))
                 .font(.body)
                 .foregroundColor(.secondary)
         }

@@ -14,6 +14,7 @@
 		A1000005 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* LogView.swift */; };
 		A1000006 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* HistoryView.swift */; };
 		A1000007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000007 /* Assets.xcassets */; };
+		A1000008 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* OptionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		A2000006 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		A2000007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2000009 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		A3000001 /* WakeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -56,6 +58,7 @@
 				A2000004 /* DataManager.swift */,
 				A2000005 /* LogView.swift */,
 				A2000006 /* HistoryView.swift */,
+				A2000009 /* OptionsView.swift */,
 				A2000007 /* Assets.xcassets */,
 				A2000008 /* Info.plist */,
 			);
@@ -145,6 +148,7 @@
 				A1000004 /* DataManager.swift in Sources */,
 				A1000005 /* LogView.swift in Sources */,
 				A1000006 /* HistoryView.swift in Sources */,
+				A1000008 /* OptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
