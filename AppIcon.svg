@@ -1,0 +1,35 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Deep night sky background -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B2444"/>
+      <stop offset="100%" style="stop-color:#2B3A67"/>
+    </linearGradient>
+    <!-- Warm golden moon -->
+    <linearGradient id="moonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5E6A3"/>
+      <stop offset="100%" style="stop-color:#E8D07E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="0" y="0" width="1024" height="1024" rx="224" ry="224" fill="url(#bgGradient)"/>
+
+  <!-- Classic storybook crescent moon - nudged slightly right -->
+  <g transform="translate(450, 520) rotate(-30)">
+    <mask id="moonMask">
+      <rect x="-500" y="-500" width="1000" height="1000" fill="white"/>
+      <circle cx="130" cy="-40" r="310" fill="black"/>
+    </mask>
+    <circle cx="0" cy="0" r="340" fill="url(#moonGradient)" mask="url(#moonMask)"/>
+  </g>
+
+  <!-- Checkmark - nudged down and left from edge -->
+  <path d="M 660 310 L 740 390 L 880 210"
+        stroke="#F5E6A3"
+        stroke-width="52"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"
+        opacity="0.95"/>
+</svg>
