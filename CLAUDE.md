@@ -15,10 +15,24 @@ WakeLog is an iOS app for tracking nighttime wake-ups, designed for seniors with
 ## Build Commands
 
 ```bash
-./scripts/build.sh      # Build the app
-./scripts/dev.sh        # Build, install, and run (all-in-one)
-./scripts/typecheck.sh  # Quick syntax validation
+./scripts/build.sh         # Build the app for simulator
+./scripts/dev.sh           # Build, install, and run in simulator (all-in-one)
+./scripts/typecheck.sh     # Quick syntax validation
+./scripts/deploy-device.sh # Deploy to connected physical device (requires ios-deploy)
 ```
+
+## Device Deployment
+
+To deploy to a physical iPhone/iPad:
+
+1. Connect the device via USB and unlock it
+2. Run `./scripts/deploy-device.sh`
+3. On first install, trust the developer certificate: Settings > General > VPN & Device Management
+
+Prerequisites:
+- Xcode with valid Apple ID signed in
+- `ios-deploy` installed (`brew install ios-deploy`)
+- Paid Apple Developer account (for apps that last >7 days)
 
 ## Architecture
 
